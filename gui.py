@@ -13,6 +13,7 @@ def run_a_sh(inst,conf):
 # GUI 생성
 root = tk.Tk()
 root.title("버튼 프로그램")
+root.geometry("400x300")
 
 # Entry 위젯을 사용하여 두 개의 파라미터를 입력받을 수 있게 함
 param1_entry = tk.Entry(root, width=20)
