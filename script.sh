@@ -24,3 +24,4 @@ cd ./yolov5
 # 필수 파일을 만듭니다.
 touch note.txt
 touch register.jpg
+python gui.py
