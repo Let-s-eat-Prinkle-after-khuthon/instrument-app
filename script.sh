@@ -20,3 +20,7 @@ cp -r weights ./yolov5
 
 # yolov5 디렉토리로 이동합니다.
 cd ./yolov5
+
+# 필수 파일을 만듭니다.
+touch note.txt
+touch register.jpg
