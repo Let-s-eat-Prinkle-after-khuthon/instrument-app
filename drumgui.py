@@ -18,17 +18,11 @@ param1_entry = tk.Entry(root, width=20)
 param2_entry = tk.Entry(root, width=20)
 
 def run_a_sh_with_params():
-    param1 = param1_entry.get()
-    param2 = param2_entry.get()
-    run_a_sh(param1, param2)
+    run_a_sh("sketch", "0.3")
 
 # 버튼 생성
 button_tune = tk.Button(root, text="튜닝하기", command=run_tune)
 button_a_sh = tk.Button(root, text="악기 검출", command=run_a_sh_with_params)
-
-# Entry 위젯 배치
-param1_entry.pack(pady=5)
-param2_entry.pack(pady=5)
 
 # 버튼 배치
 button_tune.pack(pady=10)

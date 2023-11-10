@@ -13,22 +13,13 @@ root = tk.Tk()
 root.title("버튼 프로그램")
 root.geometry("400x300")
 
-# Entry 위젯을 사용하여 두 개의 파라미터를 입력받을 수 있게 함
-param1_entry = tk.Entry(root, width=20)
-param2_entry = tk.Entry(root, width=20)
-
 def run_a_sh_with_params():
-    param1 = param1_entry.get()
-    param2 = param2_entry.get()
-    run_a_sh(param1, param2)
+    run_a_sh("piano", "0.3")
 
 # 버튼 생성
 button_tune = tk.Button(root, text="튜닝하기", command=run_tune)
 button_a_sh = tk.Button(root, text="악기 검출", command=run_a_sh_with_params)
 
-# Entry 위젯 배치
-param1_entry.pack(pady=5)
-param2_entry.pack(pady=5)
 
 # 버튼 배치
 button_tune.pack(pady=10)
