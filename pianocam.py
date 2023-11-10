@@ -45,8 +45,7 @@ while True:
     note = ["C+","B","A","G","F","E", "D", "C","X"]
     result = 8
     data = "X"
-    
-    
+    now = "X"
     with open('note.txt', 'r') as file:
             lines = file.readlines()
     for line in lines:
@@ -80,7 +79,8 @@ while True:
     req = { "inst" : "piano", "note" : data }
     if (now != past):
         requests.post(url, data=req)
-        past = now
+    past = now
+    
                 
     
     # 프레임 표시
