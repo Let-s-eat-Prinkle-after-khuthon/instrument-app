@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import requests
 
-url = "http://zackinthebox.tech:3000/inst/cats"
+url = "http://52.79.251.174:3000/inst/cats"
 
 # MediaPipe Hands 모듈 초기화
 mp_hands = mp.solutions.hands
