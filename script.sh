@@ -14,6 +14,7 @@ cd ..
 
 # 모든 .py 파일을 yolov5 디렉토리로 복사합니다.
 cp *.py ./yolov5
+cp *.sh ./yolov5
 
 # weights 디렉토리를 yolov5 디렉토리로 복사합니다.
 cp -r weights ./yolov5
@@ -24,4 +25,3 @@ cd ./yolov5
 # 필수 파일을 만듭니다.
 touch note.txt
 touch register.jpg
-python gui.py

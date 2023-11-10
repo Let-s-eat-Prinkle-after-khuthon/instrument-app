@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import requests
 
-url = "http://zackinthebox.tech:3000/inst/piano"
+url = "http://zackinthebox.tech:3000/inst/"
 
 # MediaPipe Hands 모듈 초기화
 mp_hands = mp.solutions.hands
@@ -10,8 +10,10 @@ hands = mp_hands.Hands()
 
 # 비디오 캡처 객체 생성
 cap = cv2.VideoCapture(0)  # 0은 기본 카메라를 나타냄
+
 now = ""
 past = ""
+path = ""
 
 while True:
     # 프레임 읽기
@@ -34,19 +36,18 @@ while True:
             i = 0
             for point in hand_landmarks.landmark:
                 # 각 손가락 끝점 좌표 추출
-                x, y = int(point.x * frame.shape[1]), int(point.y * frame.shape[0])
-                cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
-                if(i == 8):
-                    cv2.circle(frame, (x, y), 5, (255, 0, 0), -1)
+                
+                if(i % 4 == 0 and i >= 4):
+                    x, y = int(point.x * frame.shape[1]), int(point.y * frame.shape[0])
                     finger.append([x,y])
+                    cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
 
                 i = i + 1
     
-    note = ["C+","B","A","G","F","E", "D", "C","X"]
-    result = 8
-    data = "X"
-    
-    
+    bit = "X"
+    now = "X"
+    note = ["drum1","drum2","sym","X"]
+    result = 4
     with open('note.txt', 'r') as file:
             lines = file.readlines()
     for line in lines:
@@ -65,24 +66,22 @@ while True:
                                     
                 if len(finger) > 0:
                     size = annotation["x_max"] - annotation["x_min"]
-                    dx = int(size) / 8
+                    dx = int(size) / 3
 
                     for loc in finger:
                         if (loc[0] < annotation["x_max"] and loc[0] > annotation["x_min"]):
                             if (loc[1] < annotation["y_max"] and loc[1] > annotation["y_min"]):
-                                result = int((loc[0] - int(annotation["x_min"])) / dx)
-                                data = note[result]
-                                now = note[result]
-                else:
-                    data = note[8]
-                    now = note[8]
-                    
-    req = { "inst" : "piano", "note" : data }
+                                path = note[int((loc[0] - int(annotation["x_min"])) / dx)]
+                                bit = "O"
+                                now = "0"
+                                break;
+                        
+    req = { "inst" : "drum", "note" : bit }
     if (now != past):
-        requests.post(url, data=req)
         past = now
-                
-    
+        requests.post(url + path, data=req) 
+                              
+                         
     # 프레임 표시
     cv2.imshow('Hand Tracking', frame)
         
