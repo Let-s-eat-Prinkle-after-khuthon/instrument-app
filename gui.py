@@ -13,7 +13,6 @@ def run_a_sh(inst,conf):
 # GUI 생성
 root = tk.Tk()
 root.title("버튼 프로그램")
-root.geometry("400x300")
 
 # Entry 위젯을 사용하여 두 개의 파라미터를 입력받을 수 있게 함
 param1_entry = tk.Entry(root, width=20)
@@ -27,7 +26,7 @@ def run_a_sh_with_params():
 # 버튼 생성
 button_app = tk.Button(root, text="웹캠 열기", command=run_app)
 button_tune = tk.Button(root, text="튜닝하기", command=run_tune)
-button_a_sh = tk.Button(root, text="악기 검출", command=run_a_sh)
+button_a_sh = tk.Button(root, text="악기 검출", command=run_a_sh_with_params)
 
 # Entry 위젯 배치
 param1_entry.pack(pady=5)

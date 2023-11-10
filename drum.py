@@ -33,17 +33,14 @@ while True:
             for point in hand_landmarks.landmark:
                 # 각 손가락 끝점 좌표 추출
                 
-                if(i == 8):
+                if(i % 4 == 0 and i >= 4):
                     x, y = int(point.x * frame.shape[1]), int(point.y * frame.shape[0])
                     finger.append([x,y])
                     cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
 
                 i = i + 1
     
-    note = ["C+","B","A","G","F","E", "D", "C","X"]
-    result = 8
-    data = []
-    
+    bit = "X"
     with open('note.txt', 'r') as file:
             lines = file.readlines()
     for line in lines:
@@ -67,12 +64,10 @@ while True:
                     for loc in finger:
                         if (loc[0] < annotation["x_max"] and loc[0] > annotation["x_min"]):
                             if (loc[1] < annotation["y_max"] and loc[1] > annotation["y_min"]):
-                                result = int((loc[0] - int(annotation["x_min"])) / dx)
-                                data.append(note[result])
-                else:
-                    data.append(note[8])
+                                bit = "O"
+                                break;
                         
-    req = { "inst" : "piano", "note" : data }
+    req = { "inst" : "tri", "note" : bit }
     requests.post(url, data=req)                           
                         
                 
