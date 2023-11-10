@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import requests
 
-url = "http://localhost:3000/"
+url = "http://zackinthebox.tech:3000/inst/piano"
 
 # MediaPipe Hands 모듈 초기화
 mp_hands = mp.solutions.hands
@@ -10,7 +10,7 @@ hands = mp_hands.Hands()
 
 # 비디오 캡처 객체 생성
 cap = cv2.VideoCapture(0)  # 0은 기본 카메라를 나타냄
-
+que = []
 while True:
     # 프레임 읽기
     ret, frame = cap.read()
@@ -32,17 +32,18 @@ while True:
             i = 0
             for point in hand_landmarks.landmark:
                 # 각 손가락 끝점 좌표 추출
-                
+                x, y = int(point.x * frame.shape[1]), int(point.y * frame.shape[0])
+                cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
                 if(i == 8):
-                    x, y = int(point.x * frame.shape[1]), int(point.y * frame.shape[0])
+        
                     finger.append([x,y])
-                    cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
 
                 i = i + 1
     
     note = ["C+","B","A","G","F","E", "D", "C","X"]
     result = 8
-    data = []
+    data = "X"
+    
     
     with open('note.txt', 'r') as file:
             lines = file.readlines()
@@ -68,13 +69,21 @@ while True:
                         if (loc[0] < annotation["x_max"] and loc[0] > annotation["x_min"]):
                             if (loc[1] < annotation["y_max"] and loc[1] > annotation["y_min"]):
                                 result = int((loc[0] - int(annotation["x_min"])) / dx)
-                                data.append(note[result])
+                                data = note[result]
+                                que.append(note[result])
                 else:
-                    data.append(note[8])
-                        
+                    data = note[8]
+                    
     req = { "inst" : "piano", "note" : data }
-    requests.post(url, data=req)                           
-                        
+    if (len(que) > 6):
+        requests.post(url, data=req)
+        print(req)
+        que = []
+    elif (len(que) > 1 and len(que) <=6):
+        if (que[len(que) - 1] != que[len(que) - 2]):
+            requests.post(url, data=req)
+            print(req)
+            que = []
                 
     
     # 프레임 표시
