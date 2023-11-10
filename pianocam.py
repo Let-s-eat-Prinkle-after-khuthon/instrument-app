@@ -10,7 +10,9 @@ hands = mp_hands.Hands()
 
 # 비디오 캡처 객체 생성
 cap = cv2.VideoCapture(0)  # 0은 기본 카메라를 나타냄
-que = []
+now = ""
+past = ""
+
 while True:
     # 프레임 읽기
     ret, frame = cap.read()
@@ -35,7 +37,7 @@ while True:
                 x, y = int(point.x * frame.shape[1]), int(point.y * frame.shape[0])
                 cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
                 if(i == 8):
-        
+                    cv2.circle(frame, (x, y), 5, (255, 255, 255), -1)
                     finger.append([x,y])
 
                 i = i + 1
@@ -70,20 +72,15 @@ while True:
                             if (loc[1] < annotation["y_max"] and loc[1] > annotation["y_min"]):
                                 result = int((loc[0] - int(annotation["x_min"])) / dx)
                                 data = note[result]
-                                que.append(note[result])
+                                now = note[result]
                 else:
                     data = note[8]
+                    now = note[8]
                     
     req = { "inst" : "piano", "note" : data }
-    if (len(que) > 6):
+    if (now != past):
         requests.post(url, data=req)
-        print(req)
-        que = []
-    elif (len(que) > 1 and len(que) <=6):
-        if (que[len(que) - 1] != que[len(que) - 2]):
-            requests.post(url, data=req)
-            print(req)
-            que = []
+        past = now
                 
     
     # 프레임 표시
