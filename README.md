@@ -7,3 +7,5 @@ clone 한 뒤, script.sh를 실행하면 yolov5와 필요한 라이브러리 설
 ./yolov5 디렉토리 안에 pianogui.sh를 실행하면 악기를 검출하고 위치를 튜닝하는 gui 프로그램을 실행한다.
 
 ## 시연영상
+[![Video Label](http://img.youtube.com/vi/PZTfuiqVa0A/0.jpg)](https://youtu.be/PZTfuiqVa0A)
+
